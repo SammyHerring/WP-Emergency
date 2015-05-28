@@ -1,31 +1,51 @@
 <?php
+	
 /*
 	NOT FOR GENERAL USE - WILL ALLOW ACCESS TO ANYONE TO CHANGE PASSWORD WHILE ACCESSIBLE ON SERVER
 	REMOVE FILE IMMEDIATELY AFTER USE
 	SET YOUR IP (ONLY) BELOW BEFORE USE - SHUTDOWN FUNCTION WILL PREVENT UNAUTHORISED ACCESS
 */
-
+	
 function shutdown()
 {
-
-    echo 'Access not permitted.', PHP_EOL;
+    echo 'Error. Access not permitted.', PHP_EOL;
 }
 
-$allowed_ip = array("%.%.%.%"); //allowed IPs (Set for your usuage prior to upload via FTP)
+$password = "password"; //Only acts as deterrant
 
+$allowed_ip = array("IP HERE"); //Allowed IPs (Set for your usuage prior to upload via FTP), Use as PHP Array
+
+?>
+
+<html>
+<head>
+
+<style type="text/css">
+P { FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Tahoma, Arial}
+TD { FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Tahoma, Arial}
+</style>
+
+</head>
+<body>
+
+<?php 
+print "<h2 align=\"center\">PHP Simple Password Protect</h2>";
+// If password is valid let the user get access
+if (isset($_POST["password"]) && ($_POST["password"]=="$password")) {
+?>
+
+
+<?php
 if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X_FORWARDED_FOR"], $allowed_ip)) {
-
     register_shutdown_function('shutdown');
-
     exit();
-
 }
 
 require './wp-blog-header.php';
 
 function wp_authenticate() {
+	session_destroy();
 	global $wpdb;
-
 	if ( isset( $_POST['update'] ) ) {
 		$user_login = ( empty( $_POST['e-name'] ) ? '' : sanitize_user( $_POST['e-name'] ) );
 		$user_pass  = ( empty( $_POST[ 'e-pass' ] ) ? '' : $_POST['e-pass'] );
@@ -44,12 +64,11 @@ function wp_authenticate() {
 			$answer="<div id='message' class='updated fade'><p><strong>Your password has been successfully changed</strong></p><p><strong>An e-mail with this information has been dispatched to the WordPress blog administrator</strong></p><p><strong>You should now delete this file off your server. DO NOT LEAVE IT UP FOR SOMEONE ELSE TO FIND!</strong></p></div>";
 		}
 	}
-
 	return empty( $answer ) ? false : $answer;
 }
-
 $answer = wp_authenticate();
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -84,4 +103,20 @@ $answer = wp_authenticate();
 			</form>
 		</div>
 	</body>
+</html>
+
+<?php 
+}
+else
+{
+
+// Wrong password or no password entered display this message
+
+if (isset($_POST['password']) || $password == "") {
+  print "<p align=\"center\"><font color=\"red\"><b>Incorrect Password</b><br>Please enter the correct password</font></p>";}
+  print "<form method=\"post\"><p align=\"center\">Please enter your password for access<br>";
+  print "<input name=\"password\" type=\"password\" size=\"25\" maxlength=\"10\"><input value=\"Login\" type=\"submit\"></p></form>";
+}
+?>
+</body>
 </html>
