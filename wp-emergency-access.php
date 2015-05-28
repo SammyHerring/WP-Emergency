@@ -13,7 +13,7 @@ function shutdown()
 
 $password = "password"; //Only acts as deterrant
 
-$allowed_ip = array("81.152.231.199"); //Allowed IPs (Set for your usuage prior to upload via FTP), Use as PHP Array
+$allowed_ip = array("IP HERE"); //Allowed IPs (Set for your usuage prior to upload via FTP), Use as PHP Array
 
 ?>
 
