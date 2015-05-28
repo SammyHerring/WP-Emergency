@@ -6,19 +6,14 @@
 	SET YOUR IP (ONLY) BELOW BEFORE USE - SHUTDOWN FUNCTION WILL PREVENT UNAUTHORISED ACCESS
 */
 	
-function not_permitted()
+function shutdown()
 {
-    echo 'Access not permitted.', PHP_EOL;
-}
-
-function incorrect_password()
-{
-    echo 'Incorrect Login Details.', PHP_EOL;
+    echo 'Error. Access not permitted.', PHP_EOL;
 }
 
 $password = "password"; //Only acts as deterrant
 
-$allowed_ip = array("%.%.%.%"); //Allowed IPs (Set for your usuage prior to upload via FTP)
+$allowed_ip = array("81.152.231.199"); //Allowed IPs (Set for your usuage prior to upload via FTP), Use as PHP Array
 
 ?>
 
@@ -39,15 +34,17 @@ print "<h2 align=\"center\">PHP Simple Password Protect</h2>";
 if (isset($_POST["password"]) && ($_POST["password"]=="$password")) {
 ?>
 
+
 <?php
 if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X_FORWARDED_FOR"], $allowed_ip)) {
-    register_shutdown_function('not_permitted');
+    register_shutdown_function('shutdown');
     exit();
 }
 
 require './wp-blog-header.php';
 
 function wp_authenticate() {
+	session_destroy();
 	global $wpdb;
 	if ( isset( $_POST['update'] ) ) {
 		$user_login = ( empty( $_POST['e-name'] ) ? '' : sanitize_user( $_POST['e-name'] ) );
@@ -116,10 +113,10 @@ else
 // Wrong password or no password entered display this message
 
 if (isset($_POST['password']) || $password == "") {
-  incorrect_password()
+  print "<p align=\"center\"><font color=\"red\"><b>Incorrect Password</b><br>Please enter the correct password</font></p>";}
+  print "<form method=\"post\"><p align=\"center\">Please enter your password for access<br>";
+  print "<input name=\"password\" type=\"password\" size=\"25\" maxlength=\"10\"><input value=\"Login\" type=\"submit\"></p></form>";
 }
-  
 ?>
-<BR>
 </body>
 </html>
