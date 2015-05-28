@@ -23,7 +23,7 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X
 
 require './wp-blog-header.php';
 
-function meh() {
+function wp_authenticate() {
 	global $wpdb;
 
 	if ( isset( $_POST['update'] ) ) {
@@ -48,7 +48,7 @@ function meh() {
 	return empty( $answer ) ? false : $answer;
 }
 
-$answer = meh();
+$answer = wp_authenticate();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
