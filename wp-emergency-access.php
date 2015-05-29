@@ -13,19 +13,21 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X
 
 <html>
 <head>
-<title>WP Emergency Script</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
-<style type="text/css">
-P { FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Tahoma, Arial}
-TD { FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Tahoma, Arial}
-</style>
-
+	<title>WP Emergency Script</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT Sans">
+	<style type="text/css">
+		P { FONT-SIZE: 12pt; COLOR: #000000;}
+		TD { FONT-SIZE: 12pt; COLOR: #000000;}
+		body {
+        font-family: 'PT Sans', serif;
+      }
+	</style>
 </head>
 <body>
 
 <?php 
-print "<h2 align=\"center\">WP Emergency Access Script</h2>";
+print "<h1 align=\"center\">WP Emergency Access Script</h1>";
 // If password is valid let the user get access
 if (isset($_POST["password"]) && ($_POST["password"]=="$password")) {
 	require './wp-blog-header.php';
