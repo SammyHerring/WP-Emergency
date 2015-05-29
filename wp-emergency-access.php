@@ -3,10 +3,8 @@ function shutdown()
 {
     echo 'Error. Access not permitted.', PHP_EOL;
 }
-
 $allowed_ip = array("*.*.*.*"); //allowed IPs in array format (Set for your usuage prior to upload via FTP)
 $password = "123456"; //Password for Secondary Authentication
-
 if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X_FORWARDED_FOR"], $allowed_ip)) {
     register_shutdown_function('shutdown');
     exit();
@@ -30,7 +28,6 @@ TD { FONT-SIZE: 8pt; COLOR: #000000; FONT-FAMILY: Verdana, Tahoma, Arial}
 print "<h2 align=\"center\">WP Emergency Access Script</h2>";
 // If password is valid let the user get access
 if (isset($_POST["password"]) && ($_POST["password"]=="$password")) {
-
 	require './wp-blog-header.php';
 	function meh() {
 		global $wpdb;
@@ -88,10 +85,12 @@ if (isset($_POST["password"]) && ($_POST["password"]=="$password")) {
 }
 else
 {
-
 // Wrong password or no password entered display this message
-
 if (isset($_POST['password']) || $password == "") {
+	if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X_FORWARDED_FOR"], $allowed_ip)) {
+    	register_shutdown_function('shutdown');
+		exit();
+	}
   print "<p align=\"center\"><font color=\"red\"><b>Incorrect Password</b><br>Please enter the correct password</font></p>";}
   print "<form method=\"post\"><p align=\"center\">Please enter your password for access<br>";
   print "<input name=\"password\" type=\"password\" size=\"25\" maxlength=\"10\"><input value=\"Login\" type=\"submit\"></p></form>";
