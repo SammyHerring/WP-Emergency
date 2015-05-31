@@ -3,12 +3,14 @@ function shutdown()
 {
     echo 'Error. Access not permitted.', PHP_EOL;
 }
-$allowed_ip = array("81.152.231.199"); //allowed IPs in array format (Set for your usuage prior to upload via FTP)
+
+$allowed_ip = array("*.*.*.*"); //allowed IPs in array format (Set for your usuage prior to upload via FTP)
 $password = "123456"; //Password for Secondary Authentication
-//if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X_FORWARDED_FOR"], $allowed_ip)) {
-//    register_shutdown_function('shutdown');
-//    exit();
-//}
+
+if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X_FORWARDED_FOR"], $allowed_ip)) {
+    register_shutdown_function('shutdown');
+    exit();
+}
 ?>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -81,6 +83,7 @@ setTimeout(
 });          
 </script>
 
+
 <html>
 <head>
 	<title>WP Emergency Script</title>
@@ -92,7 +95,7 @@ setTimeout(
 		TD { FONT-SIZE: 12pt; COLOR: #000000;}
 		
 		body {
-        font-family: 'PT Sans', serif;
+       	 font-family: 'PT Sans', serif;
       	}
       	
       	H1 {
@@ -224,11 +227,13 @@ setTimeout(
 }
 
 	</style>
+
 </head>
 <body>
+
 <div class="info message" id="notify_autopop">
-         <span class="icon"></span><h3>FYI, I only show up when the page loads!</h3>
-         <p>This is just info notification message.</p>
+         <span class="icon"></span><h3>Notifier Enabled</h3>
+         <p>WP Emergency Script should be used as a last resort by an admin. Please enter password authentication to proceed.</p>
 </div>
 
 <div class="info message" id="notify_info">
@@ -253,6 +258,8 @@ setTimeout(
          <p>This is just a success notification message.</p>
         
 </div>
+
+
 <?php 
 print "<h1 align=\"center\">WP Emergency Access Script</h1>";
 // If password is valid let the user get access
@@ -316,10 +323,10 @@ else
 {
 // Wrong password or no password entered display this message
 if (isset($_POST['password']) || $password == "") {
-//	if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X_FORWARDED_FOR"], $allowed_ip)) {
-//    	register_shutdown_function('shutdown');
-//		exit();
-//	}
+	if(!in_array($_SERVER['REMOTE_ADDR'], $allowed_ip) && !in_array($_SERVER["HTTP_X_FORWARDED_FOR"], $allowed_ip)) {
+    	register_shutdown_function('shutdown');
+		exit();
+	}
   print "<p align=\"center\"><font color=\"red\"><b>Incorrect Password</b><br>Please enter the correct password</font></p>";}
   print "<form method=\"post\"><p align=\"center\">Please enter your password for access<br>";
   print "<input name=\"password\" type=\"password\" size=\"25\" maxlength=\"10\"><input value=\"Login\" type=\"submit\"></p></form>";
